@@ -1,0 +1,55 @@
+version: '3'
+
+networks:
+  app-network2:
+    driver: bridge
+
+services:
+
+  database:
+    image: mongo
+    restart: always
+    volumes:
+      - ./mongodb/mongodb_data:/data/db
+    networks:
+      app-network2:
+        aliases:
+          - database
+    ports:
+      - 27017:27017
+
+  bot:
+    build:
+      context: './taro-bot'
+      dockerfile: Dockerfile
+    container_name: 'bot'
+    networks:
+      app-network2:
+        aliases:
+          - bot
+    ports:
+      - 5001:5000
+
+  api:
+    build:
+      context: './taro-api'
+      dockerfile: Dockerfile
+    container_name: 'api'
+    networks:
+      app-network2:
+        aliases:
+          - api
+    # ports:
+    #   - 5555:5555
+
+  frontend:
+    build:
+      context: './taro-front'
+      dockerfile: Dockerfile
+    container_name: 'frontend'
+    networks:
+      app-network2:
+        aliases:
+          - frontend
+    ports:
+      - 3001:3000

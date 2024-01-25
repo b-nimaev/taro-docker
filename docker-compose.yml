@@ -28,7 +28,7 @@ services:
         aliases:
           - bot
     ports:
-      - 5001:5000
+      - 5001:5005
 
   api:
     build:
@@ -39,8 +39,8 @@ services:
       app-network2:
         aliases:
           - api
-    # ports:
-    #   - 5555:5555
+    ports:
+      - 5555:5555
 
   frontend:
     build:
